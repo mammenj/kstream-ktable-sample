@@ -2,10 +2,14 @@
 
 This is an example of a Spring Cloud Stream processor using Kafka Streams support
 
-The application uses two inputs - one KStream for user-clicks and a GlobalKTable for user-regions.
-Then it joins the information from stream to table to find out total clicks per region. You could compare the this with ktable join sample.
+The application uses one inputs - one KStream for User changes
+and groups by the User key into KTable 'allusers' then streams out the changes to 'usertable'
 
-=== Configs 
+==== View the users
+You can query the KTable using Rest endpoint http://localhost:8080/user/{id}
+You can also see the output of the KTable on a scheduled print to the console.
+
+=== Configs (application.yml)
 spring.application.name: stream-global-table
 spring.cloud.stream.bindings.process-in-0:
   destination: user
