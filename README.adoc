@@ -1,0 +1,38 @@
+== What is this app?
+
+This is an example of a Spring Cloud Stream processor using Kafka Streams support
+
+The application uses two inputs - one KStream for user-clicks and a GlobalKTable for user-regions.
+Then it joins the information from stream to table to find out total clicks per region. You could compare the this with ktable join sample.
+
+=== Configs 
+spring.application.name: stream-global-table
+spring.cloud.stream.bindings.process-in-0:
+  destination: user
+spring.cloud.stream.bindings.process-out-0:
+  destination: usertable
+
+=== Running the app:
+    start Kafka and start producing the user to 'user' topic
+   
+   *** Create some users in the input table 'user'
+    bin/confluent local produce user -- --property parse.key=true --property key.separator=~
+
+    1~{"id": "1", "name": "paul", "age": 44}
+    2~{"id": "2", "name": "john", "age": 43}
+    3~{"id": "3", "name": "virat", "age": 45}
+    4~{"id": "4", "name": "asha", "age": 100}
+    5~{"id": "5", "name": "paul", "age": 990}
+
+    *** Update users
+
+    2~{"id": "2", "name": "john", "age": 99}
+    3~{"id": "3", "name": "virat", "age": 0}
+
+==== View the users
+    http://localhost:8080/user/{id}
+
+    Also the app will print the usertable in the console
+
+
+
