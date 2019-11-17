@@ -15,8 +15,9 @@ spring.cloud.stream.bindings.process-out-0:
 === Running the app:
     start Kafka and start producing the user to 'user' topic
    
-   *** Create some users in the input table 'user'
-    bin/confluent local produce user -- --property parse.key=true --property key.separator=~
+   *** Create some users in the input table 'user' using the confluent cli or kafka cli
+    
+    'bin/confluent local produce user -- --property parse.key=true --property key.separator=~'
 
     1~{"id": "1", "name": "paul", "age": 44}
     2~{"id": "2", "name": "john", "age": 43}
