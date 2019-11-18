@@ -31,3 +31,6 @@ target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/create
 target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
 target/surefire-reports/kafka.streams.globalktable.join.KafkaStreamsGlobalKTableTests.txt
 target/surefire-reports/TEST-kafka.streams.globalktable.join.KafkaStreamsGlobalKTableTests.xml
+target/classes/application.yml
+.sts4-cache/classpath-data.json
+target/classes/application.yml

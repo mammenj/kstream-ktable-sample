@@ -1,11 +1,8 @@
 spring.application.name: stream-global-table
 spring.cloud.stream.bindings.process-in-0:
   destination: user
+
 spring.cloud.stream.bindings.process-out-0:
   destination: usertable
-#spring.cloud.stream.kafka.streams.binder.configuration.application.server: localhost:9090
 
-
-# spring.cloud.stream.kafka.streams.bindings.process-out-0:
-#   producer:
-#     materializedAs: allusers
+spring.cloud.stream.kafka.streams.binder.serdeError: logAndContinue
