@@ -34,23 +34,21 @@ public class KafkaStreamsGlobalKTable {
 
         @Bean
         public Function<KStream<String, User>, KStream<String, User>> process() {
-            return input -> input.groupByKey().reduce((aggValue, newValue) -> newValue, Materialized.as("allusers"))
-                    .toStream();
+            return input -> input.map((key, user) -> new KeyValue<>(user.getId(), user)).groupByKey()
+                    .reduce((aggValue, newValue) -> newValue, Materialized.as("allusers")).toStream();
         }
 
         @Autowired
         private InteractiveQueryService interactiveQueryService;
         ReadOnlyKeyValueStore<String, User> userStore;
 
-        
-
         @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
         public User user(@PathVariable final String id) {
-            
 
             System.out.println("Inside the REST call:: ID is :" + id + " ");
             if (userStore == null) {
-                userStore = interactiveQueryService.getQueryableStore("allusers", QueryableStoreTypes.<String, User>keyValueStore());
+                userStore = interactiveQueryService.getQueryableStore("allusers",
+                        QueryableStoreTypes.<String, User>keyValueStore());
             }
 
             final User user = userStore.get(id);
@@ -62,19 +60,21 @@ public class KafkaStreamsGlobalKTable {
         }
 
         @Scheduled(fixedRate = 5000, initialDelay = 5000)
-		public void printProductCounts() {
-			if (userStore == null) {
-				userStore = interactiveQueryService.getQueryableStore("allusers", QueryableStoreTypes.<String, User>keyValueStore());
-			}
-    
+        public void printProductCounts() {
+            if (userStore == null) {
+                userStore = interactiveQueryService.getQueryableStore("allusers",
+                        QueryableStoreTypes.<String, User>keyValueStore());
+            }
+
             final KeyValueIterator<String, User> allusers = userStore.all();
 
             while (allusers.hasNext()) {
                 final KeyValue<String, User> kv = allusers.next();
-                System.out.println("User ID: " + kv.key + " user: " + userStore.get(kv.key).getName() +":"+userStore.get(kv.key).getAge());
-        
+                System.out.println("User ID: " + kv.key + " user: " + userStore.get(kv.key).getName() + ":"
+                        + userStore.get(kv.key).getAge());
+
             }
             System.out.println("-----------------------------------------------");
-		}
+        }
     }
 }

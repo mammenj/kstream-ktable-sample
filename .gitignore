@@ -22,3 +22,12 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 .vscode/launch.json
+target/kafka-streams-global-table-0.0.1-SNAPSHOT.jar.original
+target/*
+target/maven-archiver/pom.properties
+target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+target/surefire-reports/kafka.streams.globalktable.join.KafkaStreamsGlobalKTableTests.txt
+target/surefire-reports/TEST-kafka.streams.globalktable.join.KafkaStreamsGlobalKTableTests.xml
