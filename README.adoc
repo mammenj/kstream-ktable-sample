@@ -21,18 +21,18 @@ spring.cloud.stream.bindings.process-out-0:
    
    *** Create some users in the input table 'user' using the confluent cli or kafka cli
     
-    'bin/confluent local produce user -- --property parse.key=true --property key.separator=~'
+    'bin/confluent local produce user'  // this command is for Confluent platform, use Kafka commands for Kafka only installation
 
-    1~{"id": "1", "name": "paul", "age": 44}
-    2~{"id": "2", "name": "john", "age": 43}
-    3~{"id": "3", "name": "virat", "age": 45}
-    4~{"id": "4", "name": "asha", "age": 100}
-    5~{"id": "5", "name": "paul", "age": 990}
+    {"id": "1", "name": "paul", "age": 44}
+    {"id": "2", "name": "john", "age": 43}
+    {"id": "3", "name": "virat", "age": 45}
+    {"id": "4", "name": "asha", "age": 100}
+    {"id": "5", "name": "paul", "age": 990}
 
     *** Update users
 
-    2~{"id": "2", "name": "john", "age": 99}
-    3~{"id": "3", "name": "virat", "age": 0}
+    {"id": "2", "name": "john", "age": 99}
+    {"id": "3", "name": "virat", "age": 0}
 
 ==== View the users
     http://localhost:8080/user/{id}
