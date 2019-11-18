@@ -7,7 +7,7 @@ public class User {
     private String name;
     private Integer age;
 
-    public User(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("age") Integer age){
+    public User(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("age") Integer age) {
         super();
         this.id = id;
         this.name = name;

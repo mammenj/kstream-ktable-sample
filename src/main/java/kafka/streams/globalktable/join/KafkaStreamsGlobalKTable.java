@@ -2,9 +2,7 @@ package kafka.streams.globalktable.join;
 
 import java.util.function.Function;
 
-import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.state.KeyValueIterator;
@@ -15,7 +13,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.binder.kafka.streams.InteractiveQueryService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.kafka.support.serializer.JsonSerde;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,10 +34,16 @@ public class KafkaStreamsGlobalKTable {
 
         @Bean
         public Function<KStream<String, User>, KStream<String, User>> process() {
-            final JsonSerde<User> userSerde = new JsonSerde<>();
-            return input -> input.map((key, user) -> new KeyValue<>(user.getId(), user))
-                    .groupByKey(Grouped.with(Serdes.String(), userSerde))
-                    .reduce((aggValue, newValue) -> newValue, Materialized.as("allusers")).toStream();
+            // final JsonSerde<User> userSerde = new JsonSerde<>();
+            /*
+             * return input -> input.map((key, user) -> new KeyValue<>(user.getId(), user))
+             * .groupByKey(Grouped.with(Serdes.String(), userSerde)) .reduce((aggValue,
+             * newValue) -> newValue, Materialized.as("allusers")).toStream();
+             */
+
+            return input -> input.groupByKey().reduce((aggValue, newValue) -> newValue, Materialized.as("allusers"))
+                    .toStream();
+
         }
 
         @Autowired
