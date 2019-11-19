@@ -16,7 +16,7 @@ and groups by the User key into KTable 'allusers' then streams out the changes t
     
     'mvn clean package'
 
-    3. Rund the Spring boot application
+    3. Run the Spring boot application
     
     'java -jar target\kafka-streams-global-table-0.0.1-SNAPSHOT.jar'
     
