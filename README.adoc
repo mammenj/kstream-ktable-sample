@@ -7,20 +7,25 @@ and groups by the User key into KTable 'allusers' then streams out the changes t
 
 === Running the app:
     1. Start Kafka and Zookeepr
+
     'cd #kafka_installed_home'
     'start bin\windows\zookeeper-server-start.bat config\zookeeper.properties'
     'start bin\windows\kafka-server-start.bat config\server.properties'
 
     2. Build the Spring boot application
+    
     'mvn clean package'
 
     3. Rund the Spring boot application
+    
     'java -jar target\kafka-streams-global-table-0.0.1-SNAPSHOT.jar'
     
     4. Create a producer for 'user' topic
+    
     'start bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic user'
     
     5. Input the data
+    
     Then input the below events one by one to add to the Ktable:
 
       {"id": "1", "name": "paul", "age": 44}
@@ -30,7 +35,7 @@ and groups by the User key into KTable 'allusers' then streams out the changes t
       {"id": "5", "name": "paul", "age": 990}
     
     6. Update data:
-    
+
       {"id": "2", "name": "john", "age": 99}
       {"id": "3", "name": "virat", "age": 0}
 
