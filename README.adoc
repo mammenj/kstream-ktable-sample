@@ -5,39 +5,42 @@ This is an example of a Spring Cloud Stream processor using Kafka Streams suppor
 The application uses one inputs - one KStream for User changes
 and groups by the User key into KTable 'allusers' then streams out the changes to 'usertable'
 
-==== View the users
-You can query the KTable using Rest endpoint http://localhost:8080/user/{id}
-You can also see the output of the KTable on a scheduled print to the console.
+=== Running the app:
+    1. Start Kafka and Zookeepr
+    'cd #kafka_installed_home'
+    'start bin\windows\zookeeper-server-start.bat config\zookeeper.properties'
+    'start bin\windows\kafka-server-start.bat config\server.properties'
 
-=== Configs (application.yml)
+    2. Build the Spring boot application
+    'mvn clean package'
+
+    3. Rund the Spring boot application
+    'java -jar target\kafka-streams-global-table-0.0.1-SNAPSHOT.jar'
+    
+    4. Create a producer for 'user' topic
+    'start bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic user'
+    
+    5. Input the data
+    Then input the below events one by one to add to the Ktable
+      {"id": "1", "name": "paul", "age": 44}
+      {"id": "2", "name": "john", "age": 43}
+      {"id": "3", "name": "virat", "age": 45}
+      {"id": "4", "name": "asha", "age": 100}
+      {"id": "5", "name": "paul", "age": 990}
+    
+    6. Update data:
+      {"id": "2", "name": "john", "age": 99}
+      {"id": "3", "name": "virat", "age": 0}
+
+
+==== View the data in KTable
+Go to http://localhost:8080/user/{id}
+Spring boot will also printout the table every 5 seconds on the console
+
+=== Configuration (application.yml)
 spring.application.name: stream-global-table
 spring.cloud.stream.bindings.process-in-0:
   destination: user
 spring.cloud.stream.bindings.process-out-0:
   destination: usertable
-
-=== Running the app:
-    start Kafka and start producing the user to 'user' topic
-   
-   *** Create some users in the input table 'user' using the confluent cli or kafka cli
-    
-    'bin/confluent local produce user'  // this command is for Confluent platform, use Kafka commands for Kafka only installation
-
-    {"id": "1", "name": "paul", "age": 44}
-    {"id": "2", "name": "john", "age": 43}
-    {"id": "3", "name": "virat", "age": 45}
-    {"id": "4", "name": "asha", "age": 100}
-    {"id": "5", "name": "paul", "age": 990}
-
-    *** Update users
-
-    {"id": "2", "name": "john", "age": 99}
-    {"id": "3", "name": "virat", "age": 0}
-
-==== View the users
-    http://localhost:8080/user/{id}
-
-    Also the app will print the usertable in the console
-
-
-
+spring.cloud.stream.kafka.streams.binder.serdeError: logAndContinue
