@@ -42,7 +42,8 @@ and groups by the User key into KTable 'allusers' then streams out the changes t
 
 ==== View the data in KTable
 Go to http://localhost:8080/user/{id}
-Spring boot will also printout the table every 5 seconds on the console
+
+Spring boot will also printout the table every 5 seconds on the console.
 
 === Configuration (application.yml)
 spring.application.name: stream-global-table
