@@ -21,7 +21,8 @@ and groups by the User key into KTable 'allusers' then streams out the changes t
     'start bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic user'
     
     5. Input the data
-    Then input the below events one by one to add to the Ktable
+    Then input the below events one by one to add to the Ktable:
+
       {"id": "1", "name": "paul", "age": 44}
       {"id": "2", "name": "john", "age": 43}
       {"id": "3", "name": "virat", "age": 45}
@@ -29,6 +30,7 @@ and groups by the User key into KTable 'allusers' then streams out the changes t
       {"id": "5", "name": "paul", "age": 990}
     
     6. Update data:
+    
       {"id": "2", "name": "john", "age": 99}
       {"id": "3", "name": "virat", "age": 0}
 
