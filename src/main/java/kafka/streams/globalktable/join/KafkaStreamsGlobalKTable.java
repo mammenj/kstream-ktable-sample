@@ -36,9 +36,11 @@ public class KafkaStreamsGlobalKTable {
     public static class KStreamToTableJoinApplication {
         @Bean
         public Function<KStream<String, User>, KStream<String, User>> process() {
-             return input -> input.map((key, user) -> new KeyValue<String, User>(user.getId(), user))
-             .groupByKey(Grouped.with(Serdes.String(), new JsonSerde<>(User.class)))
-             .reduce((aggValue,newValue) -> newValue, Materialized.as("allusers")).toStream();
+            return input -> input.map((key, user) -> new KeyValue<String, User>(user.getId(), user))
+                    .groupByKey(Grouped.with(Serdes.String(), new JsonSerde<>(User.class))).reduce((user1, user2) -> {
+                        user1.merge(user2);
+                        return user1;
+                    }, Materialized.as("allusers")).toStream();
         }
 
         @Autowired
