@@ -38,6 +38,8 @@ and groups by the User key into KTable 'allusers' then streams out the changes t
 
       {"id": "2", "name": "john", "age": 99}
       {"id": "3", "name": "virat", "age": 0}
+      {"id": "3", "name": "kohli"}
+      {"id": "3", "age": 33}
 
 
 ==== View the data in KTable
