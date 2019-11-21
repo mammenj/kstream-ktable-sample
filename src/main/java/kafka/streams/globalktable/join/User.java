@@ -47,21 +47,13 @@ public class User {
      * @param newObject Same type object with new values.
      */
     public void merge(Object newObject) {
-
         assert this.getClass().getName().equals(newObject.getClass().getName());
-
         for (Field field : this.getClass().getDeclaredFields()) {
-
             for (Field newField : newObject.getClass().getDeclaredFields()) {
-
                 if (field.getName().equals(newField.getName())) {
-
                     try {
-
                         field.set(this, newField.get(newObject) == null ? field.get(this) : newField.get(newObject));
-
                     } catch (IllegalAccessException ignore) {
-                        // Field update exception on final modifier and other cases.
                     }
                 }
             }
