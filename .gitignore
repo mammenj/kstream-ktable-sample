@@ -34,3 +34,8 @@ target/surefire-reports/TEST-kafka.streams.globalktable.join.KafkaStreamsGlobalK
 target/classes/application.yml
 .sts4-cache/classpath-data.json
 target/classes/application.yml
+.classpath
+.classpath
+.settings/org.eclipse.jdt.core.prefs
+.vscode/settings.json
+.settings/org.eclipse.jdt.core.prefs
