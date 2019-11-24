@@ -1,13 +1,18 @@
 package kafka.streams.globalktable.join;
 
-import java.lang.reflect.Field;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
     private String id;
     private String name;
     private Integer age;
+
+    public User() {
+        super();
+        this.id = null;
+        this.name = null;
+        this.age = null;
+    }
 
     public User(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("age") Integer age) {
         super();
@@ -39,25 +44,4 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-
-    /**
-     * Fill current object fields with new object values, ignoring new NULLs. Old
-     * values are overwritten.
-     *
-     * @param newObject Same type object with new values.
-     */
-    public void merge(Object newObject) {
-        assert this.getClass().getName().equals(newObject.getClass().getName());
-        for (Field field : this.getClass().getDeclaredFields()) {
-            for (Field newField : newObject.getClass().getDeclaredFields()) {
-                if (field.getName().equals(newField.getName())) {
-                    try {
-                        field.set(this, newField.get(newObject) == null ? field.get(this) : newField.get(newObject));
-                    } catch (IllegalAccessException ignore) {
-                    }
-                }
-            }
-        }
-    }
-
 }

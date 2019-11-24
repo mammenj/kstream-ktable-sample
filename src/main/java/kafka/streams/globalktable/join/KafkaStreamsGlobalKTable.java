@@ -1,5 +1,7 @@
 package kafka.streams.globalktable.join;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Function;
 
 import org.apache.kafka.common.serialization.Serdes;
@@ -37,10 +39,8 @@ public class KafkaStreamsGlobalKTable {
         @Bean
         public Function<KStream<String, User>, KStream<String, User>> process() {
             return input -> input.map((key, user) -> new KeyValue<String, User>(user.getId(), user))
-                    .groupByKey(Grouped.with(Serdes.String(), new JsonSerde<>(User.class))).reduce((user1, user2) -> {
-                        user1.merge(user2);
-                        return user1;
-                    }, Materialized.as("allusers")).toStream();
+                    .groupByKey(Grouped.with(Serdes.String(), new JsonSerde<>(User.class)))
+                    .reduce((user1, user2) -> mergeObjects(user1, user2), Materialized.as("allusers")).toStream();
         }
 
         @Autowired
@@ -80,6 +80,28 @@ public class KafkaStreamsGlobalKTable {
 
             }
             System.out.println("-----------------------------------------------");
+        }
+
+        @SuppressWarnings("unchecked")
+        public <T> T mergeObjects(T first, T second) {
+            Class<?> clazz = first.getClass();
+            Field[] fields = clazz.getDeclaredFields();
+            Object returnValue = null;
+            try {
+                returnValue = clazz.getDeclaredConstructor().newInstance();
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    Object value1 = field.get(first);
+                    Object value2 = field.get(second);
+                    Object value = (value2 == null) ? value1 : value2;
+                    field.set(returnValue, value);
+                }
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+
+                e.printStackTrace();
+            }
+            return (T) returnValue;
         }
     }
 }
