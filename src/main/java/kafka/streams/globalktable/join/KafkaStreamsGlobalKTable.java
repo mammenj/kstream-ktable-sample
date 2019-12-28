@@ -76,7 +76,7 @@ public class KafkaStreamsGlobalKTable {
             while (allusers.hasNext()) {
                 final KeyValue<String, User> kv = allusers.next();
                 System.out.println("User ID: " + kv.key + " user: " + userStore.get(kv.key).getName() + ":"
-                        + userStore.get(kv.key).getAge());
+                        + userStore.get(kv.key).getAge() + " idname: " + userStore.get(kv.key).getIdname());
 
             }
             System.out.println("-----------------------------------------------");
